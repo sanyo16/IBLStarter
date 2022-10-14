@@ -1,0 +1,64 @@
+{
+    "processes": [
+        {
+            "name":"createNFT",
+            "components":[
+                {
+                    "name":"FileUpload",
+                    "arguments" : {
+                        "gatewayDetails": "object",
+                        "setFileUrl" : "  const [fileUrl, setFileUrl] = useState('')"
+                    },
+                    "importFrom": "@iblcomponents/ipfs-upload",
+                    "output": {
+                        "fileUrl": "string"
+                    }
+
+                },
+                {
+                    "name":"GenerateNFT",
+                    "importFrom": "@iblcomponents/generate-nft",
+                    "arguments" : {
+                        "ipfsFileUrl": "string"                        
+                    }
+                },
+                {
+                    "name":"AMakeListing",
+                    "importFrom": "@iblcomponents/generate-nft",
+                    "arguments" : {
+                        "ipfsFileUrl": "string"         
+                    }
+                }
+            ]
+        },
+        {
+            "name":"createSomethingTest",
+            "components":[
+                {
+                    "name":"FileUpload",
+                    "arguments" : {
+                        "gatewayDetails": "object",
+                        "setFileUrl" : "  const [fileUrl, setFileUrl] = useState('')"
+                    },
+                    "importFrom": "@iblcomponents/ipfs-upload",
+                    "output": {
+                        "fileUrl": "string"
+                    },
+                    "next":"GenerateNFT",
+                    "prev":""
+
+                },
+                {
+                    "name":"GenerateNFT",
+                    "importFrom": "@iblcomponents/generate-nft",
+                    "arguments" : {
+                        "ipfsFileUrl": "string"                        
+                    },                  
+                    "next":"NFTDetails",
+                    "prev":"FileUpload"
+                }
+            ]
+        }
+    ]    
+}
+  
