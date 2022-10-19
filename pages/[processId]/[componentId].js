@@ -2,8 +2,9 @@ import Layout from '../../components/layout';
 import { getAllComponents, getComponentData } from '../../lib/components';
 import { getComponent } from '../../services/componentFactory';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useState, useEffect, useReducer, useContext } from 'react';
 import Link from 'next/link';
+import { useAppContext } from '../../context/AppContext';
 
 export default function Component({componentData}) {
   const router = useRouter()
@@ -18,10 +19,23 @@ export default function Component({componentData}) {
     authorization: authorization,
     fileURL: "https://skywalker.infura-ipfs.io/ipfs"
   }
+    
+  const [ state, dispatch ] = useAppContext();
+
+  useEffect(() => {
+    if (componentData.arguments[0]) {
+        //Need to check if it's in global state or not
+        console.log("MYINPUT:" + state[componentData.arguments[0].name]);
+    }        
+
+  }, [componentData.arguments])
 
   const DynamicComponent = getComponent(processId, componentId);
 
-  const setFileUrl = (url) => { console.log(url); };
+  const setFileUrl = (url) => { 
+      if (componentData.output[0])          
+          dispatch({ type: "add_output", value: { name: componentData.output[0].name, value: url }});
+  };
 
   const componentProps = {
     setUrl : setFileUrl,

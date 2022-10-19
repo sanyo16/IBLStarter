@@ -5,60 +5,39 @@
             "components":[
                 {
                     "name":"FileUpload",
-                    "arguments" : {
-                        "gatewayDetails": "object",
-                        "setFileUrl" : "  const [fileUrl, setFileUrl] = useState('')"
-                    },
+                    "arguments" : [],
                     "importFrom": "@iblcomponents/ipfs-upload",
-                    "output": {
-                        "fileUrl": "string"
-                    }
-
+                    "output": [
+                        {
+                            "name": "ipfsUrl",
+                            "type": "string"
+                        }
+                    ]
                 },
                 {
                     "name":"GenerateNFT",
                     "importFrom": "@iblcomponents/generate-nft",
-                    "arguments" : {
-                        "ipfsFileUrl": "string"                        
-                    }
+                    "arguments" : [
+                        {
+                            "name": "ipfsUrl",
+                            "type": "string"
+                        }
+                    ],
+                    "output": [
+                        {
+                            "name": "NFTUrl",
+                            "type": "string"
+                        }
+                    ]
                 },
                 {
                     "name":"AMakeListing",
                     "importFrom": "@iblcomponents/generate-nft",
-                    "arguments" : {
-                        "ipfsFileUrl": "string"         
-                    }
+                    "arguments" : [],
+                    "output": []
                 }
             ]
-        },
-        {
-            "name":"createSomethingTest",
-            "components":[
-                {
-                    "name":"FileUpload",
-                    "arguments" : {
-                        "gatewayDetails": "object",
-                        "setFileUrl" : "  const [fileUrl, setFileUrl] = useState('')"
-                    },
-                    "importFrom": "@iblcomponents/ipfs-upload",
-                    "output": {
-                        "fileUrl": "string"
-                    },
-                    "next":"GenerateNFT",
-                    "prev":""
-
-                },
-                {
-                    "name":"GenerateNFT",
-                    "importFrom": "@iblcomponents/generate-nft",
-                    "arguments" : {
-                        "ipfsFileUrl": "string"                        
-                    },                  
-                    "next":"NFTDetails",
-                    "prev":"FileUpload"
-                }
-            ]
-        }
+        }        
     ]    
 }
   
