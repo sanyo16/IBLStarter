@@ -23,12 +23,9 @@ export default function Component({componentData}) {
   const [ state, dispatch ] = useAppContext();
 
   useEffect(() => {
-    if (componentData.arguments[0]) {
-        //Need to check if it's in global state or not
+    if (componentData.arguments[0])
         console.log("MYINPUT:" + state[componentData.arguments[0].name]);
-    }        
-
-  }, [componentData.arguments])
+  }, [state]);
 
   const DynamicComponent = getComponent(processId, componentId);
 
