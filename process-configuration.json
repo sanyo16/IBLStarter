@@ -1,4 +1,4 @@
-{
+{    
     "processes": [
         {
             "name":"createNFT",
@@ -12,7 +12,7 @@
                             "name": "ipfsUrl",
                             "type": "string"
                         }
-                    ]
+                    ]                    
                 },
                 {
                     "name":"GenerateNFT",
@@ -28,13 +28,7 @@
                             "name": "NFTUrl",
                             "type": "string"
                         }
-                    ]
-                },
-                {
-                    "name":"AMakeListing",
-                    "importFrom": "@iblcomponents/generate-nft",
-                    "arguments" : [],
-                    "output": []
+                    ]                    
                 }
             ]
         }        
