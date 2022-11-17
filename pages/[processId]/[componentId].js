@@ -28,6 +28,7 @@ export default function Component({componentData}) {
   }, [state]);
 
   const DynamicComponent = getComponent(processId, componentId);
+  console.log(DynamicComponent);
 
   const setFileUrl = (url) => { 
       if (componentData.output[0])          
@@ -35,8 +36,10 @@ export default function Component({componentData}) {
   };
 
   const componentProps = {
-    setUrl : setFileUrl,
-    gateway : gatewayDetails
+      setUrl : setFileUrl,
+      gateway : gatewayDetails,
+      //[state[componentData.arguments[0].name]]: state[componentData.output[0].name]
+      ipfsFileUrl: "xxx"
   }
 
   return (
@@ -45,7 +48,7 @@ export default function Component({componentData}) {
         {processId} 
         <br />
         Component:
-          <DynamicComponent { ...componentProps } />
+          <DynamicComponent.Component { ...componentProps } />
         <Link href={`/${processId}/${componentData.nextComponent}`}>
             <a>Continue</a> 
         </Link>

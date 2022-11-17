@@ -9,7 +9,7 @@
                     "importFrom": "@iblcomponents/ipfs-upload",
                     "output": [
                         {
-                            "name": "ipfsUrl",
+                            "name": "ipfsFileUrl",
                             "type": "string"
                         }
                     ]                    
@@ -19,7 +19,7 @@
                     "importFrom": "@iblcomponents/generate-nft",
                     "arguments" : [
                         {
-                            "name": "ipfsUrl",
+                            "name": "ipfsFileUrl",
                             "type": "string"
                         }
                     ],

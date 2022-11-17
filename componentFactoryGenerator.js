@@ -21,7 +21,12 @@ const importStatement = ( process, component, importFrom ) =>
     }
          
     return content.concat(
-        `\nprocessMap["${process}"]["${component}"] = dynamic(() => import("${importFrom}"));\n`
+        `\nprocessMap["${process}"]["${component}"] = 
+            {
+                "Component" : dynamic(() => import("${importFrom}")),
+                "InitPromise" : import("${importFrom}").then(module => module.Init),
+                "InitServerPromise" : import("${importFrom}").then(module => module.InitServer)
+            }\n`
     )
 }
 
