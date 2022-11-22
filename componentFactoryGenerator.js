@@ -5,58 +5,66 @@ const mainContent = `import dynamic from 'next/dynamic'
 
 let processMap = {};
 
-export function getComponent(process, component) {
-    return processMap[process][component];
+export const getComponent = (process, component) => 
+    processMap[process][component];
+    
+export const getComponentWithoutProcess = (componentName) =>
+{
+    for (const process in Object.getOwnPropertyNames(processMap)) {
+        if (processMap[process].hasOwnProperty(componentName)) {
+            return processMap[process][componentName];
+        }
+    }
+    
+    return null;
 }
 `;
 
-let processedProcesses = []
+const processedProcesses = []
 
-const importStatement = ( process, component, importFrom ) => 
+const importStatement = ( process, component, importFrom ) =>
 {
     let content = "";
     if (!processedProcesses.includes(process)) {
         content = `\nprocessMap["${process}"] = {};\n`
         processedProcesses.push(process);
     }
-         
+
     return content.concat(
         `\nprocessMap["${process}"]["${component}"] = {                
-            "Component" : dynamic(() => import("${importFrom}").then(module => module.Component)),
-            "getInitializer" : import("${importFrom}").then(module => module.getInitializer)
+            "getAPI" : import("${importFrom}").then(module => module.getAPI)
         }\n`
-    )
+    );
 }
 
-function writeContent(path, content) {
+const writeContent = (path, content)  =>
     fs.writeFile(path, content, { flag: "a+" }, err => {
-        if (err) throw err;          
+        if (err)
+            throw err;
+
         return true;
     });
-}
 
-function generateComponentFactory() 
-{    
+const generateComponentFactory = () =>
+{
     const directory = "services";
-    if (!fs.existsSync(directory)){
+    if (!fs.existsSync(directory)) {
         fs.mkdirSync(directory);
     }
 
     const path = `${directory}/componentFactory.js`;
     writeContent(path, mainContent);
 
-    componentData.processes.forEach((process, index, array) => 
-    {
-        process.components.forEach((component, i, list) => {                            
-            const content = importStatement(
-                process.name, 
-                component.name, 
+    componentData.processes.forEach((process) =>
+        process.components.forEach((component) => writeContent(
+            path,
+            importStatement(
+                process.name,
+                component.name,
                 component.importFrom
-            );
-
-            writeContent(path, content);
-        });
-    });
+            )
+        ))
+    );
 }
 
 generateComponentFactory();
