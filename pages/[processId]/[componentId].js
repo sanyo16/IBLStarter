@@ -27,8 +27,10 @@ export default function Component({componentData}) {
         console.log("MYINPUT:" + state[componentData.arguments[0].name]);
   }, [state]);
 
-  const DynamicComponent = getComponent(processId, componentId);
-  console.log(DynamicComponent);
+  const IBLComponent = getComponent(processId, componentId);
+  const DynamicComponent = dynamic(() => IBLComponent.getAPI.then(factory => factory(componentId).getComponent()));
+
+  //console.log(DynamicComponent);
 
   const setFileUrl = (url) => { 
       if (componentData.output[0])          
@@ -39,8 +41,10 @@ export default function Component({componentData}) {
       setUrl : setFileUrl,
       gateway : gatewayDetails,
       //[state[componentData.arguments[0].name]]: state[componentData.output[0].name]
-      ipfsFileUrl: "xxx"
+      ipfsFileUrl: componentData.arguments[0] ? state[componentData.arguments[0].name] : "NONE"
   }
+  
+  console.log(DynamicComponent.Component);
 
   return (
     <Layout>
@@ -48,7 +52,7 @@ export default function Component({componentData}) {
         {processId} 
         <br />
         Component:
-          <DynamicComponent.Component { ...componentProps } />
+          <DynamicComponent {...componentProps}/>
         <Link href={`/${processId}/${componentData.nextComponent}`}>
             <a>Continue</a> 
         </Link>
@@ -65,8 +69,7 @@ export async function getStaticPaths()
 }
   
 export async function getStaticProps({ params }) 
-{
-  
+{  
   const componentData = await getComponentData(params)
 
   return {

@@ -30,4 +30,5 @@ yarn-error.log*
 .env.production.local
 
 # generated component factory
-/services/componentFactory.js
+services/componentFactory.js
+services/componentFactory_manual.js
