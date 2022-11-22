@@ -1,48 +1,50 @@
 import { getAllComponents, getComponentData } from '../../../lib/components';
 import { getComponent } from '../../../services/componentFactory';
-import Layout from '../../../components/layout';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import dynamic from 'next/dynamic';
 
-
-export default function Component({componentData}) {    
-    
+const Component = ({componentData}) =>
+{
     const router = useRouter();
     const { processId, componentId } = router.query;
 
     const IBLComponent = getComponent(processId, componentId);
-    const InitializerComponent = dynamic(() => IBLComponent.getAPI.then(factory => factory(componentId).initialize()));
-    
-    return ( 
+    const InitializerComponent = dynamic(
+        () => IBLComponent.getAPI.then(
+            factory => factory(componentId).initialize()
+        )
+    );
+
+    const executeApiCall = (method, data) => fetch(
+        "/api/execute",
+        {
+            method: "POST",
+            body: JSON.stringify({
+                process: processId,
+                component: componentId,
+                method: method,
+                data: data
+            }),
+        }
+    );
+
+    const onEndComponentInit = () => console.log("end this");
+
+    return (
         <div>
-            <InitializerComponent 
-                 callApi={ (method, data) => fetch("/api/execute", {
-                    method: "POST",
-                    body: JSON.stringify({ "process" : processId, "component" : componentId, "method" : method, "data" : data }),
-                 })}
-                 endComponentInit={() => {console.log("end this")}} />
+            <InitializerComponent callApi={ executeApiCall }
+                endComponentInit={ onEndComponentInit } />
         </div>
     );
 
 }
 
-export async function getStaticPaths() 
-{
-    return {
-      paths: getAllComponents(),
-      fallback: false
-    }
-}
-  
-export async function getStaticProps({ params }) 
-{  
-  const componentData = await getComponentData(params)
+export const getStaticPaths = () => ({
+    paths: getAllComponents(),
+    fallback: false
+});
 
-  return {
-    props: {
-      componentData
-    }
-  }
-}
+export const getStaticProps = ({ params }) =>
+    ({props: {componentData: getComponentData(params)}});
+
+export default Component;
