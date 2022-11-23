@@ -10,7 +10,7 @@ export const getComponent = (process, component) =>
     
 export const getComponentWithoutProcess = (componentName) =>
 {
-    for (const process in Object.getOwnPropertyNames(processMap)) {
+    for (const process in processMap) {
         if (processMap[process].hasOwnProperty(componentName)) {
             return processMap[process][componentName];
         }
