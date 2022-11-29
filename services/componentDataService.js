@@ -1,4 +1,5 @@
 const fs = require('fs');
+const componentDataFolder = "componentData";
 
 const writeContent = (path, content)  => {
     console.log(content);
@@ -12,9 +13,8 @@ const writeContent = (path, content)  => {
 
 export const saveComponentData = (componentName, data) => {
     
-    const directory = "componentData";
-    if (!fs.existsSync(directory)) {
-        fs.mkdirSync(directory);
+    if (!fs.existsSync(componentDataFolder)) {
+        fs.mkdirSync(componentDataFolder);
     }
-    writeContent(`${directory}/${componentName}.json`, data);
+    writeContent(`${componentDataFolder}/${componentName}.json`, data);
 }

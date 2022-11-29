@@ -1,5 +1,5 @@
 import Layout from '../../components/layout';
-import { getAllComponents, getComponentData } from '../../lib/components';
+import { getAllComponents, getComponentData, getComponentDataFromInit } from '../../lib/components';
 import { getComponent } from '../../services/componentFactory';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { useAppContext } from '../../context/AppContext';
 import dynamic from 'next/dynamic'
 
-const Component = ({componentData}) =>
+const Component = ({componentData, componentDataFromInit}) =>
 {
     const router = useRouter();
     const { processId, componentId } = router.query;
@@ -49,7 +49,8 @@ const Component = ({componentData}) =>
         gateway : gatewayDetails,
         //[state[componentData.arguments[0].name]]: state[componentData.output[0].name]
         ipfsFileUrl: componentData.arguments[0] ?
-            state[componentData.arguments[0].name] : "NONE"
+            state[componentData.arguments[0].name] : "NONE",
+        componentDataFromInit: componentDataFromInit
     }
 
     return (
@@ -72,6 +73,6 @@ export const getStaticPaths = () => ({
 });
 
 export const getStaticProps = ({ params }) =>
-    ({props: {componentData: getComponentData(params)}});
+    ({props: {componentData: getComponentData(params), componentDataFromInit: getComponentDataFromInit(params.componentId)}});
 
 export default Component;
