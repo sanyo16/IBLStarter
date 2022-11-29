@@ -7,8 +7,7 @@ const handler = (req, res) =>
     const IBLComponent = getComponentWithoutProcess(params.component);
     IBLComponent.getAPI.then(factory => {
         const api = factory(params.component);
-        var data = api[params.method](params.data);        
-        data = data ? data : { message: "Server side logic execution completed." }
+        const data = api[params.method](params.data);
 
         res.status(200).json(data);
     });

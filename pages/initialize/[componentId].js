@@ -23,7 +23,7 @@ const Component = ({uniqueComponents}) =>
     );
 
     const executeApiCall = (method, data) => fetch(
-        "/api/execute",
+        "/api/executeComponentApi",
         {
             method: "POST",
             body: JSON.stringify({
@@ -34,7 +34,20 @@ const Component = ({uniqueComponents}) =>
         }
     );
 
-    const onEndComponentInit = () => {
+    const onEndComponentInit = (data) => {
+
+        //Save the data of the initialization steps
+        fetch(
+            "/api/saveComponentData",
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    component: componentId,
+                    data: data
+                }),
+            }
+        );
+
         const uniqueComponentKeys = Object.keys(uniqueComponents);
         const nextComponent = uniqueComponentKeys.indexOf(componentId) + 1;
         
