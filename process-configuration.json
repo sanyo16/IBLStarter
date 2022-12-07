@@ -1,37 +1,62 @@
 {    
     "processes": [
         {
+            "menuTitle": "Application Process",
+            "uri": "/app",
             "name":"createNFT",
-            "components":[
+            "configuredComponents":[
                 {
                     "name":"FileUpload",
-                    "arguments" : [],
                     "importFrom": "@iblcomponents/ipfs-upload",
+                    "configurations" : {
+                        "projectId" : "2EzgP7X1wAAUHih5gjnc2G1TAUI",
+                        "projectSecret" : "67a27140a4dda85b990faa333b3bfeb0",
+                        "fileURL" : "https://skywalker.infura-ipfs.io/ipfs",
+                        "apiURL" : "https://ipfs.infura.io:5001/api/v0"
+                    },
+                    "inputMappings" : [],
                     "output": [
                         {
                             "name": "ipfsFileUrl",
                             "type": "string"
                         }
-                    ]                    
+                    ]    
                 },
                 {
                     "name":"GenerateNFT",
                     "importFrom": "@iblcomponents/generate-nft",
-                    "arguments" : [
+                    "configurations" : {
+                        "projectId" : "2EzgP7X1wAAUHih5gjnc2G1TAUI",
+                        "projectSecret" : "67a27140a4dda85b990faa333b3bfeb0",
+                        "fileURL" : "https://skywalker.infura-ipfs.io/ipfs",
+                        "apiURL" : "https://ipfs.infura.io:5001/api/v0"
+                    },
+                    "inputMappings": [
                         {
-                            "name": "ipfsFileUrl",
-                            "type": "string"
+                            "inputName": "ipfsFileUrl",
+                            "argumentConversionType": "CAST",
+                            "argumentMappingType": "OUTPUT_TO_INPUT",
+                            "outputName": "ipfsFileUrl",
+                            "value": null
                         }
                     ],
                     "output": [
                         {
-                            "name": "NFTUrl",
+                            "name": "contractAddress",
+                            "type": "string"
+                        },
+                        {
+                            "name": "tokenId",
+                            "type": "string"
+                        },
+                        {
+                            "name": "tokenUri",
                             "type": "string"
                         }
-                    ]                    
+                    ]                 
                 }
             ]
         }        
-    ]    
+    ] 
 }
   

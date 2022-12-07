@@ -8,7 +8,7 @@ const Process = ({ processData }) => (
         {processData.name}
         <ul className={utilStyles.list}>
             {
-                processData.components.map(({ name }) => (
+                processData.configuredComponents.map(({ name }) => (
                     <li className={utilStyles.listItem} key={name}>
                         <Link href={`/${processData.name}/${name}`}>
                             <a>{processData.name}/{name}</a>

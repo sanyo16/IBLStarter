@@ -31,4 +31,4 @@ yarn-error.log*
 
 # generated component factory
 services/componentFactory.js
-services/componentFactory_manual.js
+componentData
