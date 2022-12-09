@@ -13,34 +13,28 @@ const Component = ({componentData, componentDataFromInit}) =>
     const { processId, componentId } = router.query;
     const [state, dispatch] = useAppContext();
 
-    useEffect(
-        () => {
-            componentData.inputMappings[0] &&
-                console.log("MYINPUT:" + state[componentData.inputMappings[0].inputName]);
-        },
-        [state]
-    );
-
     const IBLComponent = getComponent(processId, componentId);
     const DynamicComponent = dynamic(
         () => IBLComponent.getAPI
             .then(factory => factory(componentId).getComponent())
     );
 
-    const saveOutput = (outputValue) => componentData.output[0] &&
-        dispatch({
-            type: "add_output",
-            value: { name: componentData.output[0].name, value: outputValue }
-        });
+    const saveOutput = output => {
+        for (let [outputName, outputValue] of Object.entries(output)) {
+            dispatch({
+                type: "add_output",
+                value: { name: outputName, value: outputValue }
+            });
+        }
+    }
 
     const buildInputData = () => {
-        const inputMapping = componentData.inputMappings[0];        
-        if (inputMapping) {
-            return {
-                [inputMapping.inputName] : state[inputMapping.inputName]
-            };
-        }
-        return {};
+        var inputData = {};
+        componentData.inputMappings.forEach(inputMapping => {
+            inputData[inputMapping.inputName] = state[inputMapping.outputName];               
+        });
+
+        return inputData;
     }    
 
     const componentProps = {

@@ -46,14 +46,61 @@
                             "type": "string"
                         },
                         {
+                            "name": "owner",
+                            "type": "string"
+                        },                        
+                        {
                             "name": "tokenId",
                             "type": "string"
                         },
                         {
                             "name": "tokenUri",
                             "type": "string"
+                        },
+                        {
+                            "name": "transaction",
+                            "type": "string"
                         }
-                    ]                 
+                    ]
+                },
+                {
+                    "name":"NFTDetails",
+                    "importFrom": "@iblcomponents/nft-details",
+                    "configurations" : {
+                        "alchemyAPIKey" : "McfZDF0I-OHzniB4jOhwsEGWI_2GOG2x"
+                    },
+                    "inputMappings": [
+                        {
+                            "inputName": "contractAddress",
+                            "argumentConversionType": "CAST",
+                            "argumentMappingType": "OUTPUT_TO_INPUT",
+                            "outputName": "contractAddress",
+                            "value": null
+                        },
+                        {
+                            "inputName": "owner",
+                            "argumentConversionType": "CAST",
+                            "argumentMappingType": "OUTPUT_TO_INPUT",
+                            "outputName": "owner",
+                            "value": null
+                        },
+                        {
+                            "inputName": "tokenId",
+                            "argumentConversionType": "CAST",
+                            "argumentMappingType": "OUTPUT_TO_INPUT",
+                            "outputName": "tokenId",
+                            "value": null
+                        },
+                        {
+                            "inputName": "tokenUri",
+                            "argumentConversionType": "CAST",
+                            "argumentMappingType": "OUTPUT_TO_INPUT",
+                            "outputName": "tokenUri",
+                            "value": null
+                        }
+                    ],
+                    "output": [                  
+                    ]
                 }
             ]
         }        

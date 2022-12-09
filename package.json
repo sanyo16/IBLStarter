@@ -9,8 +9,8 @@
         "lint": "next lint"
     },
     "dependencies": {
-        "@iblcomponents/generate-nft": "^1.5.7",
-        "@iblcomponents/ipfs-upload": "^0.6.8",
+        "@iblcomponents/generate-nft": "^1.5.9",
+        "@iblcomponents/ipfs-upload": "^0.6.9",
         "@openzeppelin/contracts": "^4.8.0",
         "gray-matter": "^4.0.3",
         "next": "latest",
