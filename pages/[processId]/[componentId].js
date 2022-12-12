@@ -4,14 +4,12 @@ import { getComponent } from '../../services/componentFactory';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import Link from 'next/link';
-import { useAppContext } from '../../context/AppContext';
 import dynamic from 'next/dynamic'
 
-const Component = ({componentData, componentDataFromInit}) =>
+const Component = ({componentData, componentDataFromInit, updateData, inputData}) =>
 {
     const router = useRouter();
     const { processId, componentId } = router.query;
-    const [state, dispatch] = useAppContext();
 
     const IBLComponent = getComponent(processId, componentId);
     const DynamicComponent = dynamic(
@@ -19,26 +17,17 @@ const Component = ({componentData, componentDataFromInit}) =>
             .then(factory => factory(componentId).getComponent())
     );
 
-    const saveOutput = output => {
-        for (let [outputName, outputValue] of Object.entries(output)) {
-            dispatch({
-                type: "add_output",
-                value: { name: outputName, value: outputValue }
-            });
-        }
-    }
-
     const buildInputData = () => {
-        var inputData = {};
+        var data = {};
         componentData.inputMappings.forEach(inputMapping => {
-            inputData[inputMapping.inputName] = state[inputMapping.outputName];               
+            data[inputMapping.inputName] = inputData[inputMapping.outputName];               
         });
 
-        return inputData;
-    }    
+        return data;
+    } 
 
     const componentProps = {
-        saveOutputCallback: saveOutput,
+        saveOutputCallback: updateData,
         configurations : componentData.configurations,        
         inputData : buildInputData(),
         componentDataFromInit: componentDataFromInit

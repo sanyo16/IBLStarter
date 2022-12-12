@@ -33,7 +33,7 @@
                     },
                     "inputMappings": [
                         {
-                            "inputName": "ipfsFileUrl",
+                            "inputName": "ipfsUrl",
                             "argumentConversionType": "CAST",
                             "argumentMappingType": "OUTPUT_TO_INPUT",
                             "outputName": "ipfsFileUrl",
