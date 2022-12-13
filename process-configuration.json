@@ -1,0 +1,109 @@
+{    
+    "processes": [
+        {
+            "menuTitle": "Application Process",
+            "uri": "/app",
+            "name":"createNFT",
+            "configuredComponents":[
+                {
+                    "name":"FileUpload",
+                    "importFrom": "@iblcomponents/ipfs-upload",
+                    "configurations" : {
+                        "projectId" : "2EzgP7X1wAAUHih5gjnc2G1TAUI",
+                        "projectSecret" : "67a27140a4dda85b990faa333b3bfeb0",
+                        "fileURL" : "https://skywalker.infura-ipfs.io/ipfs",
+                        "apiURL" : "https://ipfs.infura.io:5001/api/v0"
+                    },
+                    "inputMappings" : [],
+                    "output": [
+                        {
+                            "name": "ipfsFileUrl",
+                            "type": "string"
+                        }
+                    ]    
+                },
+                {
+                    "name":"GenerateNFT",
+                    "importFrom": "@iblcomponents/generate-nft",
+                    "configurations" : {
+                        "projectId" : "2EzgP7X1wAAUHih5gjnc2G1TAUI",
+                        "projectSecret" : "67a27140a4dda85b990faa333b3bfeb0",
+                        "fileURL" : "https://skywalker.infura-ipfs.io/ipfs",
+                        "apiURL" : "https://ipfs.infura.io:5001/api/v0"
+                    },
+                    "inputMappings": [
+                        {
+                            "inputName": "ipfsUrl",
+                            "argumentConversionType": "CAST",
+                            "argumentMappingType": "OUTPUT_TO_INPUT",
+                            "outputName": "ipfsFileUrl",
+                            "value": null
+                        }
+                    ],
+                    "output": [
+                        {
+                            "name": "contractAddress",
+                            "type": "string"
+                        },
+                        {
+                            "name": "owner",
+                            "type": "string"
+                        },                        
+                        {
+                            "name": "tokenId",
+                            "type": "string"
+                        },
+                        {
+                            "name": "tokenUri",
+                            "type": "string"
+                        },
+                        {
+                            "name": "transaction",
+                            "type": "string"
+                        }
+                    ]
+                },
+                {
+                    "name":"NFTDetails",
+                    "importFrom": "@iblcomponents/nft-details",
+                    "configurations" : {
+                        "alchemyAPIKey" : "McfZDF0I-OHzniB4jOhwsEGWI_2GOG2x"
+                    },
+                    "inputMappings": [
+                        {
+                            "inputName": "contractAddress",
+                            "argumentConversionType": "CAST",
+                            "argumentMappingType": "OUTPUT_TO_INPUT",
+                            "outputName": "contractAddress",
+                            "value": null
+                        },
+                        {
+                            "inputName": "owner",
+                            "argumentConversionType": "CAST",
+                            "argumentMappingType": "OUTPUT_TO_INPUT",
+                            "outputName": "owner",
+                            "value": null
+                        },
+                        {
+                            "inputName": "tokenId",
+                            "argumentConversionType": "CAST",
+                            "argumentMappingType": "OUTPUT_TO_INPUT",
+                            "outputName": "tokenId",
+                            "value": null
+                        },
+                        {
+                            "inputName": "tokenUri",
+                            "argumentConversionType": "CAST",
+                            "argumentMappingType": "OUTPUT_TO_INPUT",
+                            "outputName": "tokenUri",
+                            "value": null
+                        }
+                    ],
+                    "output": [                  
+                    ]
+                }
+            ]
+        }        
+    ] 
+}
+  

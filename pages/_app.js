@@ -1,7 +1,13 @@
-import '../styles/globals.css'
+import '../styles/global.css';
+import { useState } from "react"
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
-}
+const App = ({ Component, pageProps }) => {
+    const [componentData, setComponentData] = useState({});
+    const updateComponentData = (newData) => {
+        setComponentData({ ...componentData, ...newData });
+    };
 
-export default MyApp
+    return <Component {...pageProps} updateData = { updateComponentData } inputData = { componentData } />;
+};
+
+export default App;

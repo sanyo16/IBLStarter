@@ -1,20 +1,24 @@
 {
-  "name": "ibl-core",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "next": "12.3.1",
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
-  },
-  "devDependencies": {
-    "eslint": "8.25.0",
-    "eslint-config-next": "12.3.1"
-  }
+    "name": "ibl-core",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "@iblcomponents/generate-nft": "^1.5.9",
+        "@iblcomponents/ipfs-upload": "^0.6.9",
+        "@openzeppelin/contracts": "^4.8.0",
+        "gray-matter": "^4.0.3",
+        "next": "latest",
+        "path": "^0.12.7",
+        "react": "18.2.0",
+        "react-dom": "18.2.0",
+        "react-query": "^3.39.2",
+        "remark": "^14.0.2",
+        "remark-html": "^15.0.1"
+    }
 }
