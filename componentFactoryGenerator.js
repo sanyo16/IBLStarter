@@ -56,7 +56,7 @@ const generateComponentFactory = () =>
     writeContent(path, mainContent);
 
     componentData.processes.forEach((process) =>
-        process.components.forEach((component) => writeContent(
+        process.configuredComponents.forEach((component) => writeContent(
             path,
             importStatement(
                 process.name,
