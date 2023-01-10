@@ -1,13 +1,12 @@
 import '../styles/global.css';
-import { useState } from "react"
+import { AppWrapper } from "../context/AppContext";
 
-const App = ({ Component, pageProps }) => {
-    const [componentData, setComponentData] = useState({});
-    const updateComponentData = (newData) => {
-        setComponentData({ ...componentData, ...newData });
-    };
-
-    return <Component {...pageProps} updateData = { updateComponentData } inputData = { componentData } />;
-};
+const App = ({ Component, pageProps }) => (
+    <>
+        <AppWrapper>
+            <Component {...pageProps} />
+        </AppWrapper>
+    </>
+);
 
 export default App;

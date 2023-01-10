@@ -1,15 +1,17 @@
-import Layout from '../../components/layout';
-import { getAllComponents, getComponentData, getComponentDataFromInit } from '../../lib/components';
-import { getComponent } from '../../services/componentFactory';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import Link from 'next/link';
-import dynamic from 'next/dynamic'
+import dynamic, { noSSR } from 'next/dynamic'
+import Layout from '../../components/layout';
+import { getAllComponents, getComponentData, getComponentDataFromInit } from '../../lib/components';
+import { getComponent } from '../../services/componentFactory';
+import { useAppContext } from '../../context/AppContext';
 
-const Component = ({componentData, componentDataFromInit, updateData, inputData}) =>
+const Component = ({componentData, componentDataFromInit}) =>
 {
     const router = useRouter();
     const { processId, componentId } = router.query;
+    const [state, dispatch] = useAppContext();
 
     const IBLComponent = getComponent(processId, componentId);
     const DynamicComponent = dynamic(
@@ -17,17 +19,26 @@ const Component = ({componentData, componentDataFromInit, updateData, inputData}
             .then(factory => factory(componentId).getComponent())
     );
 
+    const saveOutput = output => {
+        for (let [outputName, outputValue] of Object.entries(output)) {
+            dispatch({
+                type: "add_output",
+                value: { name: outputName, value: outputValue }
+            });
+        }
+    }
+
     const buildInputData = () => {
         var data = {};
         componentData.inputMappings.forEach(inputMapping => {
-            data[inputMapping.inputName] = inputData[inputMapping.outputName];               
+            data[inputMapping.inputName] = state[inputMapping.outputName];               
         });
 
         return data;
     } 
 
     const componentProps = {
-        saveOutputCallback: updateData,
+        saveOutputCallback: saveOutput,
         configurations : componentData.configurations,        
         inputData : buildInputData(),
         componentDataFromInit: componentDataFromInit
