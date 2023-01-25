@@ -20,7 +20,7 @@
                             "name": "ipfsFileUrl",
                             "type": "string"
                         }
-                    ]    
+                    ]
                 },
                 {
                     "name":"GenerateNFT",
@@ -29,7 +29,10 @@
                         "projectId" : "2EzgP7X1wAAUHih5gjnc2G1TAUI",
                         "projectSecret" : "67a27140a4dda85b990faa333b3bfeb0",
                         "fileURL" : "https://skywalker.infura-ipfs.io/ipfs",
-                        "apiURL" : "https://ipfs.infura.io:5001/api/v0"
+                        "apiURL" : "https://ipfs.infura.io:5001/api/v0",
+                        "title" : true,
+                        "description" : true,
+                        "selectBlockchain" : false
                     },
                     "inputMappings": [
                         {
