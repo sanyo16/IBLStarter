@@ -1,4 +1,4 @@
-const componentData = require('./process-configuration.json');
+const componentData = require('../process-configuration.json');
 const fs = require("fs");
 
 const mainContent = `import dynamic from 'next/dynamic'

@@ -32,3 +32,4 @@ yarn-error.log*
 # generated component factory
 services/componentFactory.js
 componentData
+.env

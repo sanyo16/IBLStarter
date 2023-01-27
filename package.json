@@ -11,6 +11,7 @@
     "dependencies": {
         "@iblcomponents/generate-nft": "^1.6.2",
         "@iblcomponents/ipfs-upload": "^0.7.2",
+        "dotenv": "^16.0.3",
         "gray-matter": "^4.0.3",
         "next": "latest",
         "path": "^0.12.7",

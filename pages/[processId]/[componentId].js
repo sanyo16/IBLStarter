@@ -6,6 +6,7 @@ import Layout from '../../components/layout';
 import { getAllComponents, getComponentData, getComponentDataFromInit } from '../../lib/components';
 import { getComponent } from '../../services/componentFactory';
 import { useAppContext } from '../../context/AppContext';
+import crypto from 'crypto';
 
 const Component = ({componentData, componentDataFromInit}) =>
 {
@@ -26,7 +27,7 @@ const Component = ({componentData, componentDataFromInit}) =>
                 value: { name: outputName, value: outputValue }
             });
         }
-    }
+    };
 
     const buildInputData = () => {
         var data = {};
@@ -35,14 +36,14 @@ const Component = ({componentData, componentDataFromInit}) =>
         });
 
         return data;
-    } 
+    };
 
     const componentProps = {
         saveOutputCallback: saveOutput,
         configurations : componentData.configurations,        
         inputData : buildInputData(),
         componentDataFromInit: componentDataFromInit
-    }
+    };
 
     return (
         <Layout>
@@ -56,20 +57,29 @@ const Component = ({componentData, componentDataFromInit}) =>
             </Link>
         </Layout>
     )
-}
+};
 
-export const getStaticPaths = () => ({
-    paths: getAllComponents(),
-    fallback: false
-});
+export async function getServerSideProps(context) 
+{    
+    const { params } = context;    
+    const componentData = getComponentData(params);    
+    const algorithm = 'aes-256-cbc';
+    const secretKey = process.env.ENCRYPTION_KEY;
+    
+    const iv = Buffer.from(componentData.configurations.iv, 'hex');
+    const decipher = crypto.createDecipheriv(algorithm, secretKey, iv);
 
-export const getStaticProps = ({ params }) => ({
-    props: {
-        componentData: 
-            getComponentData(params), 
-        componentDataFromInit: 
-            getComponentDataFromInit(params.componentId)
+    let decryptedConfigurations = decipher.update(componentData.configurations.data, 'hex', 'utf8');
+    decryptedConfigurations += decipher.final('utf8');    
+
+    componentData.configurations = JSON.parse(decryptedConfigurations);
+  
+    return {
+        props: {
+            componentData: componentData,
+            componentDataFromInit: getComponentDataFromInit(params.componentId)
+        }
     }
-});
+};
 
 export default Component;
