@@ -7,6 +7,7 @@ import { getAllComponents, getComponentData, getComponentDataFromInit } from '..
 import { getComponent } from '../../services/componentFactory';
 import { useAppContext } from '../../context/AppContext';
 import crypto from 'crypto';
+import { getEncryptionKey } from '../../services/vault';
 
 const Component = ({componentData, componentDataFromInit}) =>
 {
@@ -43,7 +44,7 @@ const Component = ({componentData, componentDataFromInit}) =>
         configurations : componentData.configurations,        
         inputData : buildInputData(),
         componentDataFromInit: componentDataFromInit
-    };
+    };    
 
     return (
         <Layout>
@@ -59,27 +60,28 @@ const Component = ({componentData, componentDataFromInit}) =>
     )
 };
 
-export async function getServerSideProps(context) 
+export const getServerSideProps = (context) =>
 {    
     const { params } = context;    
     const componentData = getComponentData(params);    
     const algorithm = 'aes-256-cbc';
-    const secretKey = process.env.ENCRYPTION_KEY;
     
-    const iv = Buffer.from(componentData.configurations.iv, 'hex');
-    const decipher = crypto.createDecipheriv(algorithm, secretKey, iv);
+    return getEncryptionKey()
+        .then(secretKey => {
+            const iv = Buffer.from(componentData.configurations.iv, 'hex');
+            const decipher = crypto.createDecipheriv(algorithm, secretKey, iv);
 
-    let decryptedConfigurations = decipher.update(componentData.configurations.data, 'hex', 'utf8');
-    decryptedConfigurations += decipher.final('utf8');    
+            let decryptedConfigurations = decipher.update(componentData.configurations.data, 'hex', 'utf8');
+            decryptedConfigurations += decipher.final('utf8');            
+            componentData.configurations = JSON.parse(decryptedConfigurations);
 
-    componentData.configurations = JSON.parse(decryptedConfigurations);
-  
-    return {
-        props: {
-            componentData: componentData,
-            componentDataFromInit: getComponentDataFromInit(params.componentId)
-        }
-    }
+            return {
+                props: {
+                    componentData: componentData,
+                    componentDataFromInit: getComponentDataFromInit(params.componentId)
+                }
+            }
+        });
 };
 
 export default Component;

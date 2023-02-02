@@ -5,32 +5,45 @@ const fs = require("fs");
 const configFile = 'process-configuration.json';
 const processData = require(`../${configFile}`);
 
-function encryptConfigurations() 
+const getEncryptionKey = require('../services/vault').getEncryptionKey;
+
+const encryptComponent = (algorithm, encryptionKey, component) => 
 {
-    const algorithm = 'aes-256-cbc';
-    const secretKey = process.env.ENCRYPTION_KEY;
+    const iv = crypto.randomBytes(16);
+    const cipher = crypto.createCipheriv(algorithm, encryptionKey, iv);
 
-    processData.processes.forEach(process => {
-        process.configuredComponents.forEach(component => {
-            const iv = crypto.randomBytes(16);
-            const cipher = crypto.createCipheriv(algorithm, secretKey, iv);
-            
-            let configurationsString = JSON.stringify(component.configurations);
-            let encryptedConfigurations = cipher.update(configurationsString, 'utf8', 'hex');
-            encryptedConfigurations += cipher.final('hex');
-            
-            component.configurations = {
-                data: encryptedConfigurations,
-                iv: iv.toString('hex')
-            };
-        });
-    });
+    let configurationsString = JSON.stringify(component.configurations);
+    let encryptedConfigurations = 
+        cipher.update(configurationsString, 'utf8', 'hex');
+    encryptedConfigurations += cipher.final('hex');
 
-    return JSON.stringify(processData);
+    component.configurations = {
+        data: encryptedConfigurations,
+        iv: iv.toString('hex')
+    };
 };
 
-fs.writeFile(configFile, encryptConfigurations(), (err) => {
-    if (err) 
-        throw err;
-    console.log('The file has been saved!');
-});
+const encryptConfigurations = () =>
+{        
+    const algorithm = 'aes-256-cbc';
+
+    return getEncryptionKey()
+        .then(encryptionKey => {
+            processData.processes.forEach(process => {
+                process.configuredComponents.forEach(component => {
+                    encryptComponent(algorithm, encryptionKey, component);
+                });
+            });
+
+            return JSON.stringify(processData);
+        });
+};
+
+encryptConfigurations()
+    .then(encryptedData =>
+        fs.writeFile(configFile, encryptedData, (err) => {
+            if (err) 
+                throw err;
+            console.log('The file has been saved!');
+        }));
+
