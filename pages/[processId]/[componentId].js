@@ -7,7 +7,8 @@ import { getAllComponents, getComponentData, getComponentDataFromInit } from '..
 import { getComponent } from '../../services/componentFactory';
 import { useAppContext } from '../../context/AppContext';
 import crypto from 'crypto';
-import { getEncryptionKey } from '../../services/vault';
+import { getEncryptionKey } from '../../services/vaultService';
+import { decrypt } from '../../services/cryptoService';
 
 const Component = ({componentData, componentDataFromInit}) =>
 {
@@ -67,13 +68,9 @@ export const getServerSideProps = (context) =>
     const algorithm = 'aes-256-cbc';
     
     return getEncryptionKey()
-        .then(secretKey => {
-            const iv = Buffer.from(componentData.configurations.iv, 'hex');
-            const decipher = crypto.createDecipheriv(algorithm, secretKey, iv);
-
-            let decryptedConfigurations = decipher.update(componentData.configurations.data, 'hex', 'utf8');
-            decryptedConfigurations += decipher.final('utf8');            
-            componentData.configurations = JSON.parse(decryptedConfigurations);
+        .then(secretKey => {            
+            componentData.configurations = 
+                decrypt(componentData.configurations, secretKey);
 
             return {
                 props: {

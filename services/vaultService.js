@@ -20,5 +20,5 @@ const getEncryptionKey = () =>
 };
 
 module.exports = {
-    getEncryptionKey,
+    getEncryptionKey
 };
