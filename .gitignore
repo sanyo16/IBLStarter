@@ -33,3 +33,4 @@ yarn-error.log*
 services/componentFactory.js
 componentData
 .env
+createApp/role_id
