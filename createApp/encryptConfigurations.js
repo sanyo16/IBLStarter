@@ -1,8 +1,8 @@
 require('dotenv').config();
 const fs = require("fs");
 
-const configFile = '../process-configuration.json';
-const processData = require(configFile);
+const configFile = 'process-configuration.json';
+const processData = require(`../${configFile}`);
 
 const getEncryptionKey = require('../services/vaultService').getEncryptionKey;
 const encrypt = require('../services/cryptoService').encrypt;
