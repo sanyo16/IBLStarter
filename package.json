@@ -10,8 +10,7 @@
     },
     "dependencies": {
         "@iblcomponents/generate-nft": "^1.8.6",
-        "@iblcomponents/ipfs-upload": "^0.7.7",
-        "dotenv": "^16.0.3",
+        "@iblcomponents/ipfs-upload": "^0.7.7",        
         "gray-matter": "^4.0.3",
         "next": "latest",
         "node-vault": "^0.9.22",
