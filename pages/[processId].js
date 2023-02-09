@@ -25,7 +25,7 @@ export const getStaticPaths = () => ({
     fallback: false
 });
 
-export const getStaticProps = ({ params }) =>
+export const getStaticProps = ({ params }) => 
     ({props: {processData: getProcessData(params.processId)}});
 
 export default Process;
