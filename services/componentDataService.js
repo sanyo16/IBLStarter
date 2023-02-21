@@ -1,14 +1,13 @@
 const fs = require('fs');
 const dataFolder = "componentData";
 
-const writeContent = (path, content)  =>
-    fs.writeFile(
-        path,
-        content,
-        { flag: "a+" },
-        err => err && 
-            console.error(`Error occured when writing file ${path}: ${err}`)
-    );
+const writeContent = (path, content) => {
+    try {
+        fs.writeFileSync(path, content, { flag: 'a+' });
+    } catch (err) {
+        console.error(`Error occured when writing file ${path}: ${err}`);
+    }
+};
 
 const saveComponentData = (componentName, data) => {
     try {
