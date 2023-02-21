@@ -1,20 +1,29 @@
 const fs = require('fs');
-const componentDataFolder = "componentData";
+const dataFolder = "componentData";
 
-const writeContent = (path, content)  => {
-    console.log(content);
-    fs.writeFile(path, JSON.stringify(content), err => {
-        if (err)
-            throw err;
+const writeContent = (path, content)  =>
+    fs.writeFile(
+        path,
+        content,
+        { flag: "a+" },
+        err => err && 
+            console.error(`Error occured when writing file ${path}: ${err}`)
+    );
 
-        return true;
-    });
-}
-
-export const saveComponentData = (componentName, data) => {
-    
-    if (!fs.existsSync(componentDataFolder)) {
-        fs.mkdirSync(componentDataFolder);
+const saveComponentData = (componentName, data) => {
+    try {
+        if (!fs.existsSync(dataFolder)) {
+            fs.mkdirSync(dataFolder);
+        }
+    } catch (err) {
+        console.error(`Failed to create directory ${dataFolder}: ${err}`);
+        return;
     }
-    writeContent(`${componentDataFolder}/${componentName}.json`, data);
+
+    writeContent(`${dataFolder}/${componentName}.json`, JSON.stringify(data));
 }
+
+module.exports = {  
+    writeContent,
+    saveComponentData
+};

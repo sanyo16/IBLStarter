@@ -3,11 +3,12 @@ export const initialState = {};
 export const AppReducer = (state, action) =>
 {
     switch (action.type) {        
-        case "init_stored":
+        case "getInitialState":
             return action.value;
-        case "add_output": {
+        case "addOutput": {
             return {...state, [action.value.name] : action.value.value};
         }
-
-    }
+        default:
+            return action.value;
+    };
 };

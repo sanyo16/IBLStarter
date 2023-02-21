@@ -21,8 +21,8 @@ export const AppWrapper = ({ children }) =>
     useEffect(
         () => {
             const state = JSON.parse(localStorage.getItem("appState"));
-            state && dispatch({type: "init_stored", value: state});
-         },
+            state && dispatch({type: "getInitialState", value: state});
+        },
         []
     );
 

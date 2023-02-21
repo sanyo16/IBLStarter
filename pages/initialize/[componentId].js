@@ -13,8 +13,8 @@ const Component = ({uniqueComponents}) =>
 
     const InitializerComponent = dynamic(
         () => IBLComponent.getAPI.then(
-            factory => {
-                const api = factory(componentId);
+            getComponentApi => {
+                const api = getComponentApi(componentId);
 
                 return typeof api.initialize === "function"  ?
                     api.initialize() : EmptyInitializeComponent;
@@ -37,30 +37,32 @@ const Component = ({uniqueComponents}) =>
     const onEndComponentInit = (data) => {
 
         //Save the data of the initialization steps
-        fetch(
-            "/api/saveComponentData",
-            {
-                method: "POST",
-                body: JSON.stringify({
-                    component: componentId,
-                    data: data
-                }),
-            }
-        );
-
-        const uniqueComponentKeys = Object.keys(uniqueComponents);
-        const nextComponent = uniqueComponentKeys.indexOf(componentId) + 1;
-        
-        if (!uniqueComponentKeys[nextComponent]) {
-            router.push("/")   
-        } else {
-            router.push(`/initialize/${uniqueComponentKeys[nextComponent]}`)
-        }
+        fetch("/api/saveComponentData", {
+            method: "POST",
+            body: JSON.stringify({
+                component: componentId,
+                data: data
+            }),
+        })
+        .then(() => {
+            const componentKeys = Object.keys(uniqueComponents);
+            const nextComponent = componentKeys.indexOf(componentId) + 1;
+            
+            router.push(
+                !uniqueComponentKeys[nextComponent] ? "/" : 
+                    `/initialize/${uniqueComponentKeys[nextComponent]}`
+            );            
+        })
+        .catch((error) => {
+            console.error(`Error saving component data: ${error}`);
+        });
     };
+
+    const uniqueComponent = uniqueComponents[componentId];
 
     return (
         <div>
-            <h2>Initialize { uniqueComponents[componentId] && uniqueComponents[componentId].name }</h2>
+            <h2>Initialize { uniqueComponent && uniqueComponent.name } </h2>
             <InitializerComponent callApi={ executeApiCall }
                 endComponentInit={ onEndComponentInit } />
         </div>
@@ -74,6 +76,6 @@ export const getStaticPaths = () => ({
 });
 
 export const getStaticProps = () =>
-    ({props: {uniqueComponents : getUniqueComponents()}});
+    ({ props: { uniqueComponents : getUniqueComponents() } });
 
 export default Component;

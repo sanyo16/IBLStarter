@@ -34,3 +34,6 @@ services/componentFactory.js
 componentData
 .env
 createApp/role_id
+process-configuration.json
+role_id
+package-lock.json

@@ -25,20 +25,17 @@ const Component = ({componentData, componentDataFromInit}) =>
     const saveOutput = output => {
         for (let [outputName, outputValue] of Object.entries(output)) {
             dispatch({
-                type: "add_output",
+                type: "addOutput",
                 value: { name: outputName, value: outputValue }
             });
         }
     };
 
-    const buildInputData = () => {
-        var data = {};
-        componentData.inputMappings.forEach(inputMapping => {
-            data[inputMapping.inputName] = state[inputMapping.outputName];               
-        });
-
-        return data;
-    };
+    const buildInputData = () => 
+        componentData.inputMappings.reduce((result, inputMapping) => {
+            result[inputMapping.inputName] = state[inputMapping.outputName];
+            return result;
+        }, {});
 
     const componentProps = {
         saveOutputCallback: saveOutput,
@@ -61,24 +58,31 @@ const Component = ({componentData, componentDataFromInit}) =>
     )
 };
 
-export const getServerSideProps = (context) =>
-{    
-    const { params } = context;    
-    const componentData = getComponentData(params);    
+export const getServerSideProps = (context) => {
+    const { params } = context;
+    const componentData = getComponentData(params);
+    if (!componentData) {
+        return {
+            notFound: true,
+        }
+    };
     const algorithm = 'aes-256-cbc';
-    
-    return getEncryptionKey()
-        .then(secretKey => {            
-            componentData.configurations = 
-                decrypt(componentData.configurations, secretKey);
-
-            return {
-                props: {
-                    componentData: componentData,
-                    componentDataFromInit: getComponentDataFromInit(params.componentId)
-                }
-            }
+  
+    return getEncryptionKey().then((secretKey) => {
+        componentData.configurations = 
+            decrypt(componentData.configurations, secretKey);
+  
+        return new Promise((resolve, reject) => {
+            getComponentDataFromInit(params.componentId, (dataFromInit) => {
+                resolve({
+                    props: {
+                        componentData: componentData,
+                        componentDataFromInit: dataFromInit,
+                    },
+                });
+            });
         });
+    });
 };
 
 export default Component;

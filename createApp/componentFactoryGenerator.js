@@ -1,3 +1,4 @@
+const writeContent = require('../services/componentDataService').writeContent;
 const componentData = require('../process-configuration.json');
 const fs = require("fs");
 
@@ -37,19 +38,16 @@ const importStatement = ( process, component, importFrom ) =>
     );
 }
 
-const writeContent = (path, content)  =>
-    fs.writeFile(path, content, { flag: "a+" }, err => {
-        if (err)
-            throw err;
-
-        return true;
-    });
-
 const generateComponentFactory = () =>
 {
     const directory = "services";
-    if (!fs.existsSync(directory)) {
-        fs.mkdirSync(directory);
+    try {
+        if (!fs.existsSync(directory)) {
+            fs.mkdirSync(directory);
+        }
+    } catch (err) {
+        console.error(`Failed to create directory ${directory}: ${err}`);
+        return;
     }
 
     const path = `${directory}/componentFactory.js`;

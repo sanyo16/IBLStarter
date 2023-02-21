@@ -6,14 +6,11 @@ const encrypt = (jsonData, secretKey) =>
     const iv = crypto.randomBytes(16);    
     const cipher = crypto.createCipheriv(algorithm, secretKey, iv);
 
-    let data = JSON.stringify(jsonData);
-    let encryptedData = cipher.update(data, 'utf8', 'hex');
-    encryptedData += cipher.final('hex');
+    const data = JSON.stringify(jsonData);
+    const encryptedData = 
+        cipher.update(data, 'utf8', 'hex') + cipher.final('hex');
 
-    return {
-        data: encryptedData,
-        iv: iv.toString('hex')
-    };
+    return { data: encryptedData, iv: iv.toString('hex') };
 };
 
 const decrypt = (jsonData, secretKey) => 
@@ -22,8 +19,8 @@ const decrypt = (jsonData, secretKey) =>
     const iv = Buffer.from(jsonData.iv, 'hex');
     const decipher = crypto.createDecipheriv(algorithm, secretKey, iv);
 
-    let decryptedConfigurations = decipher.update(jsonData.data, 'hex', 'utf8');
-    decryptedConfigurations += decipher.final('utf8');
+    const decryptedConfigurations = 
+        decipher.update(jsonData.data, 'hex', 'utf8') + decipher.final('utf8');
 
     return JSON.parse(decryptedConfigurations);        
 };
