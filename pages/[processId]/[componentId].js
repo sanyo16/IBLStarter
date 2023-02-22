@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import dynamic from "next/dynamic"
 import Layout from "../../components/layout";
-import { getAllComponents, getComponentData, getComponentDataFromInit } from "../../lib/components";
+import { getComponentData, getComponentDataFromInit } from "../../lib/components";
 import { getComponent } from "../../services/componentFactory";
 import { useAppContext } from "../../context/AppContext";
 import crypto from "crypto";
