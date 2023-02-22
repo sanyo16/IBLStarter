@@ -1,10 +1,10 @@
 const fs = require("fs");
 
-const configFile = 'process-configuration.json';
+const configFile = "process-configuration.json";
 const processData = require(`../${configFile}`);
 
-const getEncryptionKey = require('../services/vaultService').getEncryptionKey;
-const encrypt = require('../services/cryptoService').encrypt;
+const getEncryptionKey = require("../services/vaultService").getEncryptionKey;
+const encrypt = require("../services/cryptoService").encrypt;
 
 const encryptConfigurations = () => getEncryptionKey()
     .then(encryptionKey => {
@@ -18,7 +18,7 @@ const encryptConfigurations = () => getEncryptionKey()
         return JSON.stringify(processData);
     })
     .catch(error => {
-        console.error('An error occurred while encrypting configurations:', error);
+        console.error("An error occurred while encrypting configurations:", error);
     });
 
 encryptConfigurations()

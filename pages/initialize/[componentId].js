@@ -1,8 +1,8 @@
-import { getAllComponents, getUniqueComponents } from '../../lib/components';
-import { getComponentWithoutProcess } from '../../services/componentFactory';
-import Router, { useRouter } from 'next/router';
-import dynamic from 'next/dynamic';
-import EmptyInitializeComponent from '../../components/EmptyInitializeComponent';
+import { getAllComponents, getUniqueComponents } from "../../lib/components";
+import { getComponentWithoutProcess } from "../../services/componentFactory";
+import Router, { useRouter } from "next/router";
+import dynamic from "next/dynamic";
+import EmptyInitializeComponent from "../../components/EmptyInitializeComponent";
 
 const Component = ({uniqueComponents}) =>
 {
@@ -34,8 +34,8 @@ const Component = ({uniqueComponents}) =>
         }
     );
 
-    const onEndComponentInit = (data) => {
-
+    const onEndComponentInit = (data) => 
+    {
         //Save the data of the initialization steps
         fetch("/api/saveComponentData", {
             method: "POST",

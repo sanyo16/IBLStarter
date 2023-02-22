@@ -1,4 +1,4 @@
-import '../styles/global.css';
+import "../styles/global.css";
 import { AppWrapper } from "../context/AppContext";
 
 const App = ({ Component, pageProps }) => (

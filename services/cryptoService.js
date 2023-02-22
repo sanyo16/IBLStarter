@@ -1,5 +1,5 @@
-const crypto = require('crypto');
-const algorithm = 'aes-256-cbc';
+const crypto = require("crypto");
+const algorithm = "aes-256-cbc";
 
 const encrypt = (jsonData, secretKey) => 
 {    
@@ -8,19 +8,19 @@ const encrypt = (jsonData, secretKey) =>
 
     const data = JSON.stringify(jsonData);
     const encryptedData = 
-        cipher.update(data, 'utf8', 'hex') + cipher.final('hex');
+        cipher.update(data, "utf8", "hex") + cipher.final("hex");
 
-    return { data: encryptedData, iv: iv.toString('hex') };
+    return { data: encryptedData, iv: iv.toString("hex") };
 };
 
 const decrypt = (jsonData, secretKey) => 
 {
-    const algorithm = 'aes-256-cbc';        
-    const iv = Buffer.from(jsonData.iv, 'hex');
+    const algorithm = "aes-256-cbc";        
+    const iv = Buffer.from(jsonData.iv, "hex");
     const decipher = crypto.createDecipheriv(algorithm, secretKey, iv);
 
     const decryptedConfigurations = 
-        decipher.update(jsonData.data, 'hex', 'utf8') + decipher.final('utf8');
+        decipher.update(jsonData.data, "hex", "utf8") + decipher.final("utf8");
 
     return JSON.parse(decryptedConfigurations);        
 };

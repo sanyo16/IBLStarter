@@ -1,8 +1,8 @@
-const writeContent = require('../services/componentDataService').writeContent;
-const componentData = require('../process-configuration.json');
+const writeContent = require("../services/componentDataService").writeContent;
+const componentData = require("../process-configuration.json");
 const fs = require("fs");
 
-const mainContent = `import dynamic from 'next/dynamic'
+const mainContent = `import dynamic from "next/dynamic"
 
 let processMap = {};
 

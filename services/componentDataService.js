@@ -1,15 +1,17 @@
-const fs = require('fs');
+const fs = require("fs");
 const dataFolder = "componentData";
 
-const writeContent = (path, content) => {
+const writeContent = (path, content) => 
+{
     try {
-        fs.writeFileSync(path, content, { flag: 'a+' });
+        fs.writeFileSync(path, content, { flag: "a+" });
     } catch (err) {
         console.error(`Error occured when writing file ${path}: ${err}`);
     }
 };
 
-const saveComponentData = (componentName, data) => {
+const saveComponentData = (componentName, data) => 
+{
     try {
         if (!fs.existsSync(dataFolder)) {
             fs.mkdirSync(dataFolder);

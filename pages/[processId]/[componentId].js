@@ -1,14 +1,13 @@
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import Link from 'next/link';
-import dynamic, { noSSR } from 'next/dynamic'
-import Layout from '../../components/layout';
-import { getAllComponents, getComponentData, getComponentDataFromInit } from '../../lib/components';
-import { getComponent } from '../../services/componentFactory';
-import { useAppContext } from '../../context/AppContext';
-import crypto from 'crypto';
-import { getEncryptionKey } from '../../services/vaultService';
-import { decrypt } from '../../services/cryptoService';
+import { useRouter } from "next/router";
+import Link from "next/link";
+import dynamic from "next/dynamic"
+import Layout from "../../components/layout";
+import { getAllComponents, getComponentData, getComponentDataFromInit } from "../../lib/components";
+import { getComponent } from "../../services/componentFactory";
+import { useAppContext } from "../../context/AppContext";
+import crypto from "crypto";
+import { getEncryptionKey } from "../../services/vaultService";
+import { decrypt } from "../../services/cryptoService";
 
 const Component = ({componentData, componentDataFromInit}) =>
 {
@@ -23,7 +22,7 @@ const Component = ({componentData, componentDataFromInit}) =>
     );
 
     const saveOutput = output => {
-        for (let [outputName, outputValue] of Object.entries(output)) {
+        for (const [outputName, outputValue] of Object.entries(output)) {
             dispatch({
                 type: "addOutput",
                 value: { name: outputName, value: outputValue }
@@ -66,7 +65,7 @@ export const getServerSideProps = (context) => {
             notFound: true,
         }
     };
-    const algorithm = 'aes-256-cbc';
+    const algorithm = "aes-256-cbc";
   
     return getEncryptionKey().then((secretKey) => {
         componentData.configurations = 

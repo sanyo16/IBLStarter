@@ -1,8 +1,8 @@
-import Head from 'next/head';
-import Layout, { siteTitle } from '../components/layout';
-import utilStyles from '../styles/utils.module.css';
-import { getAllProcesses } from '../lib/components';
-import Link from 'next/link';
+import Head from "next/head";
+import Layout, { siteTitle } from "../components/layout";
+import utilStyles from "../styles/utils.module.css";
+import { getAllProcesses } from "../lib/components";
+import Link from "next/link";
 
 const Home = ({ processes }) => (
     <Layout home>

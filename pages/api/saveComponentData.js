@@ -1,4 +1,4 @@
-import { saveComponentData } from '../../services/componentDataService';
+import { saveComponentData } from "../../services/componentDataService";
 
 const handler = (req, res) =>
 {    

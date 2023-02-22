@@ -1,7 +1,7 @@
-import Layout from '../components/layout';
-import { getAllProcesses, getProcessData } from '../lib/components';
-import utilStyles from '../styles/utils.module.css';
-import Link from 'next/link';
+import Layout from "../components/layout";
+import { getAllProcesses, getProcessData } from "../lib/components";
+import utilStyles from "../styles/utils.module.css";
+import Link from "next/link";
 
 const Process = ({ processData }) => (
     <Layout>
@@ -26,6 +26,6 @@ export const getStaticPaths = () => ({
 });
 
 export const getStaticProps = ({ params }) => 
-    ({props: {processData: getProcessData(params.processId)}});
+    ({ props: { processData: getProcessData(params.processId) } });
 
 export default Process;

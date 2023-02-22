@@ -1,7 +1,4 @@
-import { 
-    getComponent, 
-    getComponentWithoutProcess 
-} from '../../services/componentFactory';
+import { getComponentWithoutProcess } from "../../services/componentFactory";
 
 const handler = (req, res) =>
 {
@@ -15,7 +12,11 @@ const handler = (req, res) =>
             res.status(200).json(data);
         })
         .catch(err => {
-            res.status(500).json({ error: err.message });
+            if (err && err.code && err.message) {
+                res.status(err.code).json({ error: err.message });
+            } else {
+                res.status(500).json({ error: "Internal Server Error" });
+            }
         });
 };
 
